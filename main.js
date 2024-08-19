@@ -1,11 +1,19 @@
-import { ajax  } from "./ajax.js";
+import { ajax, readTextFile } from "./modules/ajax.js";
 import { ghRep } from "./github-repository.js";
 
+const addTo = $("body > .content");
+
 function addContentFromAJAX(data, status, xhr) {
-    const addTo = $("body > .content");
     console.log([data, status, xhr]);
     if (status === "success") {
-        addTo.html(data);
+        switch (typeof data) {
+            case "string":
+                addTo.html(data);
+                break;
+            case "object":
+                addTo.html(data.text);
+                break;
+        }
     }
 }
 
@@ -34,4 +42,8 @@ $("a").click(function(e) {
     }
 
     ajax(finalUrl, dataTypeToGet).then(addContentFromAJAX);
+});
+
+readTextFile("./hello.json", "json", jsonExtra => {
+    addTo.html(jsonExtra);
 });
