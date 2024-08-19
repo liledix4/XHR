@@ -6,7 +6,7 @@ let ajaxObject = {
     method: "POST",
     data: {preloaded: true},
     dataType: 'html',
-    contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+    contentType: 'text/plain; charset=UTF-8'
 };
 
 export function ajax(url, htmlElementToReturnDataTo, execute) {
