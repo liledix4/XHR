@@ -5,7 +5,7 @@ let currentAJAXpage;
 let ajaxObject = {
     method: "POST",
     data: {preloaded: true},
-    dataType: 'html',
+    dataType: 'text',
     contentType: 'text/plain; charset=UTF-8'
 };
 
