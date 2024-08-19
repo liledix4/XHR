@@ -41,12 +41,29 @@ $("a").click(function(e) {
             break;
     }
 
-    jqueryAJAX(finalUrl, dataTypeToGet).then(addContentFromAJAX);
-    // readTextFile(finalUrl, dataTypeToGet, data => {
-    //     addTo.html(data);
-    // });
+    // jqueryAJAX(
+    //     {
+    //         url: finalUrl,
+    //         dataType: dataTypeToGet
+    //     })
+    //     .then(addContentFromAJAX);
+    readTextFile(
+        {
+            url: finalUrl,
+            dataType: dataTypeToGet
+        },
+        data => {
+            addTo.html(data);
+        }
+    );
 });
 
-readTextFile("./1.html", "html", data => {
-    addTo.html(data);
-});
+readTextFile(
+    {
+        url: "./1.html",
+        dataType: "html"
+    },
+    data => {
+        addTo.html(data);
+    }
+);
