@@ -1,3 +1,5 @@
+import { ghRep } from "./github-repository.js";
+
 let currentAJAXpage;
 
 let ajaxObject = {
@@ -8,7 +10,7 @@ let ajaxObject = {
 };
 
 export function ajax(url, htmlElementToReturnDataTo, execute) {
-    ajaxObject.url = url;
+    ajaxObject.url = `https://raw.githubusercontent.com/${ghRep.user}/${ghRep.rep}/${ghRep.branch}/${url}`;
 
     currentAJAXpage = $
         .ajax(ajaxObject)
