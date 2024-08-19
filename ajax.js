@@ -1,34 +1,27 @@
-let currentAJAXpage;
-
 let ajaxObject = {
     method: "POST",
     data: {preloaded: true},
-    dataType: 'html',
-    headers: {'User-Agent': 'request'},
-    contentType: 'application/x-www-form-urlencoded; charset=UTF-8'
+    headers: {"User-Agent": "request"}
 };
 
-export function ajax(url, htmlElementToReturnDataTo, execute) {
-    ajaxObject.url = url;
+function getContentType(dataType) {
+    const fixCharset = "; charset=UTF-8";
+    switch (dataType) {
+        case "html": return `application/x-www-form-urlencoded${fixCharset}`;
+        case "json": return `application/json${fixCharset}`;
+    }
+}
 
-    currentAJAXpage = $
+export function ajax(url, dataType = "html") {
+    ajaxObject.url = url;
+    ajaxObject.dataType = dataType;
+    ajaxObject.contentType = getContentType(dataType);
+
+    return $
         .ajax(ajaxObject)
-        .done(
-            function(data) {
-                htmlElementToReturnDataTo.html(data);
-            }
-        )
         .fail(
             function() {
                 console.log("Please tell liledix4 that something is wrong with AJAX. Thank you!");
             }
-        )
-        .always(
-            function(data, status, xhr) {
-                if (execute) {execute();}
-                console.log([data, status, xhr]);
-            }
         );
-
-    console.log(currentAJAXpage);
 }
