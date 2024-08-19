@@ -11,7 +11,8 @@ let ajaxObject = {
 };
 
 export function ajax(url, htmlElementToReturnDataTo, execute) {
-    ajaxObject.url = `https://raw.githubusercontent.com/${ghRep.user}/${ghRep.rep}/${ghRep.branch}/${url}`;
+    // ajaxObject.url = `https://raw.githubusercontent.com/${ghRep.user}/${ghRep.rep}/${ghRep.branch}/${url}`;
+    ajaxObject.url = `${ghRep.website}/${url}`;
 
     currentAJAXpage = $
         .ajax(ajaxObject)
