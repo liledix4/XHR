@@ -1,4 +1,4 @@
-import { ajax, readTextFile } from "./modules/ajax.js";
+import { jqueryAJAX, readTextFile } from "./modules/ajax.js";
 import { ghRep } from "./github-repository.js";
 
 const addTo = $("body > .content");
@@ -41,7 +41,10 @@ $("a").click(function(e) {
             break;
     }
 
-    ajax(finalUrl, dataTypeToGet).then(addContentFromAJAX);
+    jqueryAJAX(finalUrl, dataTypeToGet).then(addContentFromAJAX);
+    // readTextFile(finalUrl, dataTypeToGet, data => {
+    //     addTo.html(data);
+    // });
 });
 
 readTextFile("./1.html", "html", data => {
