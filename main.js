@@ -44,6 +44,6 @@ $("a").click(function(e) {
     ajax(finalUrl, dataTypeToGet).then(addContentFromAJAX);
 });
 
-readTextFile("./hello.json", "json", jsonExtra => {
-    addTo.html(jsonExtra);
+readTextFile("./1.html", "html", data => {
+    addTo.html(data);
 });
