@@ -43,7 +43,7 @@ links.forEach(link => {
 
         switch (linkAttribute.domainType) {
             case 'ghio':
-                finalUrl = `${inputValues.website}/${inputValues.url}`;
+                finalUrl = `https://${inputValues.website}/${inputValues.url}`;
                 break;
             case 'ghraw':
                 finalUrl = `https://raw.githubusercontent.com/${inputValues.user}/${inputValues.rep}/${inputValues.branch}/${inputValues.url}`;
