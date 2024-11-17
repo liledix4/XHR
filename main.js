@@ -17,11 +17,15 @@ links.forEach(link => {
         let headers;
 
         let inputValues = {
-            user:       document.querySelector(`${qsConfigRoot}user`).value,
-            rep:        document.querySelector(`${qsConfigRoot}rep`).value,
-            branch:     document.querySelector(`${qsConfigRoot}branch`).value,
-            token:      document.querySelector(`${qsConfigRoot}token`).value,
-            website:    document.querySelector(`${qsConfigRoot}website`).value,
+            user:           document.querySelector(`${qsConfigRoot}user`).value,
+            rep:            document.querySelector(`${qsConfigRoot}rep`).value,
+            branch:         document.querySelector(`${qsConfigRoot}branch`).value,
+            token:          document.querySelector(`${qsConfigRoot}token`).value,
+            tokenHeader:    document.querySelector(`${qsConfigRoot}token_header`).value,
+            tokenPrefix:    document.querySelector(`${qsConfigRoot}token_prefix`).value,
+            website:        document.querySelector(`${qsConfigRoot}website`).value,
+            rawUrl:         document.querySelector(`${qsConfigRoot}rawurl`).value,
+            rawUrlSchema:   document.querySelector(`${qsConfigRoot}rawurlschema`).value,
         };
         let linkAttribute = {
             domainType: rawAttributes.domain.value,
@@ -41,19 +45,28 @@ links.forEach(link => {
             }
         }
 
+        function getRawUrlFromSchema() {
+            return inputValues.rawUrlSchema
+                .replace('{SRC}', inputValues.rawUrl)
+                .replace('{USER}', inputValues.user)
+                .replace('{REPO}', inputValues.rep)
+                .replace('{BRANCH}', inputValues.branch)
+                .replace('{URL}', inputValues.url);
+        }
+
         switch (linkAttribute.domainType) {
             case 'ghio':
                 finalUrl = `https://${inputValues.website}/${inputValues.url}`;
                 break;
             case 'ghraw':
-                finalUrl = `https://raw.githubusercontent.com/${inputValues.user}/${inputValues.rep}/${inputValues.branch}/${inputValues.url}`;
+                finalUrl = 'https://' + getRawUrlFromSchema();
                 break;
             case 'ghraw_private':
-                finalUrl = `https://raw.githubusercontent.com/${inputValues.user}/${inputValues.rep}/${inputValues.branch}/${inputValues.url}`;
+                finalUrl = 'https://' + getRawUrlFromSchema();
                 headers = [
                     {
-                        property: 'Authorization',
-                        value: `Token ${inputValues.token}`,
+                        property: inputValues.tokenHeader,
+                        value: inputValues.tokenPrefix + inputValues.token,
                     }
                 ];
                 break;

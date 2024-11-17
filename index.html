@@ -21,14 +21,6 @@
                 <th>Branch</th>
                 <td><input type="text" class="config_branch" value="main"></td>
             </tr>
-            <tr>
-                <th>Personal Access Token<br><i>(for private repositories)</i></th>
-                <td><input type="password" class="config_token"></td>
-            </tr>
-            <tr>
-                <th>Website</th>
-                <td>https://<input type="text" class="config_website" value="liledix4.github.io/xhr"></td>
-            </tr>
         </table>
         <table>
             <tr>
@@ -60,6 +52,32 @@
                 <td>5</td>
                 <td><input type="text" class="config_file5" value="test/hello.json"></td>
                 <td><input type="text" class="config_type5" value="json"></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>Website</th>
+                <td>https://<input type="text" class="config_website" value="liledix4.github.io/xhr"></td>
+            </tr>
+            <tr>
+                <th>Raw URL</th>
+                <td>https://<input type="text" class="config_rawurl" value="raw.githubusercontent.com"></td>
+            </tr>
+            <tr>
+                <th>Raw URL Schema</th>
+                <td>https://<input type="text" class="config_rawurlschema" value="{SRC}/{USER}/{REPO}/{BRANCH}/{URL}"></td>
+            </tr>
+        </table>
+        <table>
+            <caption><b>For private repositories</b></caption>
+            <tr>
+                <th>Token Header</th>
+                <td><input type="text" class="config_token_header" value="Authorization"></td>
+            </tr>
+            <tr>
+                <th>Token</th>
+                <td><input type="text" class="config_token_prefix" value="Token "></td>
+                <td><input type="password" class="config_token"></td>
             </tr>
         </table>
     </div>

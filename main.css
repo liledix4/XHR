@@ -2,6 +2,7 @@ body {
     font-family: "BlinkMacSystemFont", "Segoe UI Variable Display", "Segoe UI", sans-serif;
     background-color: #222;
     color: white;
+    margin: 0;
 }
 input {
     font-family: inherit;
@@ -14,18 +15,27 @@ a {
     border-radius: 10000px;
     cursor: pointer;
 }
+body > .config {
+    white-space: nowrap;
+    overflow: auto;
+    display: flex;
+    gap: 10px;
+    padding: 10px;
+}
 body > .config table {
     display: inline-table;
     vertical-align: middle;
     padding: 20px;
     background-color: #fff1;
     border-radius: 20px;
-    margin: 5px;
+}
+body > .config table > caption {
+    margin-bottom: 10px;
 }
 body > .links,
 body > .content {
     padding: 20px;
     background-color: #fff1;
     border-radius: 20px;
-    margin: 5px;
+    margin: 10px;
 }
