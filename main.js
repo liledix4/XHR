@@ -26,6 +26,7 @@ links.forEach(link => {
             website:        document.querySelector(`${qsConfigRoot}website`).value,
             rawUrl:         document.querySelector(`${qsConfigRoot}rawurl`).value,
             rawUrlSchema:   document.querySelector(`${qsConfigRoot}rawurlschema`).value,
+            method:         document.querySelector(`${qsConfigRoot}method:checked`).value,
         };
         let linkAttribute = {
             domainType: rawAttributes.domain.value,
@@ -47,11 +48,11 @@ links.forEach(link => {
 
         function getRawUrlFromSchema() {
             return inputValues.rawUrlSchema
-                .replace('{SRC}', inputValues.rawUrl)
-                .replace('{USER}', inputValues.user)
-                .replace('{REPO}', inputValues.rep)
-                .replace('{BRANCH}', inputValues.branch)
-                .replace('{URL}', inputValues.url);
+                .replace('{SRC}',       inputValues.rawUrl)
+                .replace('{USER}',      inputValues.user)
+                .replace('{REPO}',      inputValues.rep)
+                .replace('{BRANCH}',    inputValues.branch)
+                .replace('{URL}',       inputValues.url);
         }
 
         switch (linkAttribute.domainType) {
@@ -80,6 +81,7 @@ links.forEach(link => {
                 url: finalUrl,
                 mime: mime,
                 headers: headers,
+                method: inputValues.method,
             },
             data => {
                 addTo.innerHTML = data;

@@ -14,6 +14,8 @@ export function readTextFile(xhrRequest, callback) {
     xhrRequest = getFullObject(xhrRequest);
     const xhr = new XMLHttpRequest();
 
+    console.log(xhrRequest.method);
+
     xhr.overrideMimeType(xhrRequest.mime);
     xhr.open(
         xhrRequest.method,
