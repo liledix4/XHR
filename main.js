@@ -1,69 +1,86 @@
-import { jqueryAJAX, readTextFile } from "./modules/ajax.js";
-import { ghRep } from "./github-repository.js";
+import { readTextFile } from './modules/ajax.js';
+import { mimePreset } from './modules/mime-presets.js';
 
-const addTo = $("body > .content");
+const qsRoot = 'body ';
+const qsConfigRoot = `${qsRoot}> .config .config_`;
+const addTo = document.querySelector(`${qsRoot}> .content`);
+const links = document.querySelectorAll(`${qsRoot}> .links a`);
 
-function addContentFromAJAX(data, status, xhr) {
-    console.log([data, status, xhr]);
-    if (status === "success") {
-        switch (typeof data) {
-            case "string":
-                addTo.html(data);
+links.forEach(link => {
+    link.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const rawAttributes = e.target.attributes;
+
+        let mime;
+        let finalUrl;
+        let headers;
+
+        let inputValues = {
+            user:       document.querySelector(`${qsConfigRoot}user`).value,
+            rep:        document.querySelector(`${qsConfigRoot}rep`).value,
+            branch:     document.querySelector(`${qsConfigRoot}branch`).value,
+            token:      document.querySelector(`${qsConfigRoot}token`).value,
+            website:    document.querySelector(`${qsConfigRoot}website`).value,
+        };
+        let linkAttribute = {
+            domainType: rawAttributes.domain.value,
+            fileNumber: rawAttributes.filenumber.value,
+        };
+
+        inputValues.url = document.querySelector(`${qsConfigRoot}file${linkAttribute.fileNumber}`).value;
+
+        inputValues.dataTypeToGet = document.querySelector(`${qsConfigRoot}type${linkAttribute.fileNumber}`).value;
+        if (inputValues.dataTypeToGet === '') {
+            mime = mimePreset.html;
+        }
+        else {
+            mime = mimePreset[inputValues.dataTypeToGet];
+            if (mime === undefined) {
+                mime = inputValues.dataTypeToGet;
+            }
+        }
+
+        switch (linkAttribute.domainType) {
+            case 'ghio':
+                finalUrl = `${inputValues.website}/${inputValues.url}`;
                 break;
-            case "object":
-                addTo.html(data.text);
+            case 'ghraw':
+                finalUrl = `https://raw.githubusercontent.com/${inputValues.user}/${inputValues.rep}/${inputValues.branch}/${inputValues.url}`;
+                break;
+            case 'ghraw_private':
+                finalUrl = `https://raw.githubusercontent.com/${inputValues.user}/${inputValues.rep}/${inputValues.branch}/${inputValues.url}`;
+                headers = [
+                    {
+                        property: 'Authorization',
+                        value: `Token ${inputValues.token}`,
+                    }
+                ];
+                break;
+            case 'relative':
+                finalUrl = inputValues.url;
                 break;
         }
-    }
-}
 
-$("a").click(function(e) {
-    const attr = {
-        url: $(this).attr("href"),
-        domainType: $(this).attr("domain"),
-        dataTypeToGet: $(this).attr("type")
-    };
-    let dataTypeToGet = "html";
-    let finalUrl;
-    if (attr.dataTypeToGet) {dataTypeToGet = attr.dataTypeToGet;}
-
-    e.preventDefault();
-
-    switch (attr.domainType) {
-        case "ghio":
-            finalUrl = `${ghRep.website}/${attr.url}`;
-            break;
-        case "ghraw":
-            finalUrl = `https://raw.githubusercontent.com/${ghRep.user}/${ghRep.rep}/${ghRep.branch}/${attr.url}`;
-            break;
-        case "relative":
-            finalUrl = attr.url;
-            break;
-    }
-
-    // jqueryAJAX(
-    //     {
-    //         url: finalUrl,
-    //         dataType: dataTypeToGet
-    //     })
-    //     .then(addContentFromAJAX);
-    readTextFile(
-        {
-            url: finalUrl,
-            dataType: dataTypeToGet
-        },
-        data => {
-            addTo.html(data);
-        }
-    );
+        readTextFile(
+            {
+                url: finalUrl,
+                mime: mime,
+                headers: headers,
+            },
+            data => {
+                addTo.innerHTML = data;
+            }
+        );
+    });
 });
 
 readTextFile(
     {
-        url: "./1.html",
-        dataType: "html"
+        url: document.querySelector(`${qsConfigRoot}file1`).value,
+        mime: mimePreset.html,
     },
     data => {
-        addTo.html(data);
+        addTo.innerHTML = data;
     }
 );
